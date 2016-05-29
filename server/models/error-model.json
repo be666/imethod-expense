@@ -16,6 +16,9 @@
       "required": true
     }
   },
+  "mixins": {
+    "Timestamp": {}
+  },
   "validations": [],
   "relations": {},
   "acls": [],

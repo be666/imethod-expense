@@ -1,0 +1,24 @@
+{
+  "ids": {
+    "User": 1,
+    "AccessToken": 2,
+    "ACL": 1,
+    "RoleMapping": 1,
+    "Role": 1,
+    "ErrorModel": 1,
+    "user": 2
+  },
+  "models": {
+    "User": {},
+    "AccessToken": {
+      "DcqqrjNvfBmGKhyIRHUSHho4wh2xBsKdDEaFY4YJSGG1c2dUmrCwYYapH05B4nuW": "{\"id\":\"DcqqrjNvfBmGKhyIRHUSHho4wh2xBsKdDEaFY4YJSGG1c2dUmrCwYYapH05B4nuW\",\"ttl\":1209600,\"created\":\"2016-05-29T16:22:50.756Z\",\"userId\":1}"
+    },
+    "ACL": {},
+    "RoleMapping": {},
+    "Role": {},
+    "ErrorModel": {},
+    "user": {
+      "1": "{\"password\":\"$2a$10$/NHXmmMZJBuH0NVK9xti9.LrIJ0H9piB43UuGzZ9/2ldjbNSbA046\",\"email\":\"bcaring@126.com\",\"id\":1,\"verificationToken\":\"0bca468129da731382190827bc8bcd7138d76ad95d57f326d6a561a3bb566edd6f3732d84f20c8eece5836ae0548be6e5d5455692dfd42c3158a92d1f2485cfe\",\"emailVerified\":true}"
+    }
+  }
+}
