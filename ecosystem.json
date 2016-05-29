@@ -1,0 +1,33 @@
+{
+  "apps": [
+    {
+      "name": "IMoney",
+      "script": "server/server.js",
+      "watch": true,
+      "ignore_watch": [
+        ".idea",
+        ".git",
+        "node_modules",
+        "server/resource",
+        "client"
+      ],
+      "next_gen_js": true,
+      "env_dev": {
+        "NODE_ENV": "dev"
+      },
+      "env_production": {
+        "NODE_ENV": "production"
+      }
+    }
+  ],
+  "deploy": {
+    "production": {
+      "user": "root",
+      "host": "bcaring.cn",
+      "ref": "origin/master",
+      "repo": "git@github.com:iMethod/IMoney.git",
+      "path": "/var/www/van",
+      "post-deploy": "npm install;npm run build;pm2 startOrRestart ecosystem.json --env production"
+    }
+  }
+}
