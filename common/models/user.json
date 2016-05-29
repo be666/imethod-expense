@@ -8,7 +8,7 @@
   "acls": [
     {
       "principalType": "ROLE",
-      "principalId": "$everyone",
+      "principalId": "$authenticated",
       "accessType": "READ",
       "permission": "ALLOW"
     }

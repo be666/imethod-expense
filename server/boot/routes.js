@@ -1,10 +1,10 @@
 var dsConfig = require('../datasources.json');
 
-module.exports = function(app) {
+module.exports = function (app) {
   var User = app.models.user;
 
   //login page
-  app.get('/', function(req, res) {
+  app.get('/', function (req, res) {
     var credentials = dsConfig.emailDs.transports[0].auth;
     res.render('login', {
       email: credentials.user,
@@ -13,16 +13,16 @@ module.exports = function(app) {
   });
 
   //verified
-  app.get('/verified', function(req, res) {
+  app.get('/verified', function (req, res) {
     res.render('verified');
   });
 
   //log a user in
-  app.post('/login', function(req, res) {
+  app.post('/login', function (req, res) {
     User.login({
       email: req.body.email,
       password: req.body.password
-    }, 'user', function(err, token) {
+    }, 'user', function (err, token) {
       if (err) {
         res.render('response', {
           title: 'Login failed',
@@ -33,6 +33,7 @@ module.exports = function(app) {
         return;
       }
 
+      res.cookie('access_token', token.id, {signed: true});
       res.render('home', {
         email: req.body.email,
         accessToken: token.id
@@ -41,21 +42,20 @@ module.exports = function(app) {
   });
 
   //log a user out
-  app.get('/logout', function(req, res, next) {
+  app.get('/logout', function (req, res, next) {
     if (!req.accessToken) return res.sendStatus(401);
-    User.logout(req.accessToken.id, function(err) {
+    User.logout(req.accessToken.id, function (err) {
       if (err) return next(err);
       res.redirect('/');
     });
   });
 
   //send an email with instructions to reset an existing user's password
-  app.post('/request-password-reset', function(req, res, next) {
+  app.post('/request-password-reset', function (req, res, next) {
     User.resetPassword({
       email: req.body.email
-    }, function(err) {
+    }, function (err) {
       if (err) return res.status(401).send(err);
-
       res.render('response', {
         title: 'Password reset requested',
         content: 'Check your email for further instructions',
@@ -66,7 +66,7 @@ module.exports = function(app) {
   });
 
   //show password reset form
-  app.get('/reset-password', function(req, res, next) {
+  app.get('/reset-password', function (req, res, next) {
     if (!req.accessToken) return res.sendStatus(401);
     res.render('password-reset', {
       accessToken: req.accessToken.id
@@ -74,19 +74,18 @@ module.exports = function(app) {
   });
 
   //reset the user's pasword
-  app.post('/reset-password', function(req, res, next) {
+  app.post('/reset-password', function (req, res, next) {
     if (!req.accessToken) return res.sendStatus(401);
 
     //verify passwords match
-    if (!req.body.password ||
-      !req.body.confirmation ||
+    if (!req.body.password || !req.body.confirmation ||
       req.body.password !== req.body.confirmation) {
       return res.sendStatus(400, new Error('Passwords do not match'));
     }
 
-    User.findById(req.accessToken.userId, function(err, user) {
+    User.findById(req.accessToken.userId, function (err, user) {
       if (err) return res.sendStatus(404);
-      user.updateAttribute('password', req.body.password, function(err, user) {
+      user.updateAttribute('password', req.body.password, function (err, user) {
         if (err) return res.sendStatus(404);
         console.log('> password reset processed successfully');
         res.render('response', {
