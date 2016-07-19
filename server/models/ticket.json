@@ -1,0 +1,28 @@
+{
+  "name": "Ticket",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "elementId": {
+      "type": "number",
+      "required": true
+    },
+    "tips": {
+      "type": "string"
+    }
+  },
+  "mixins": {
+    "Timestamp": {}
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}

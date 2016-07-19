@@ -1,0 +1,33 @@
+{
+  "name": "AccountTicket",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "accountId": {
+      "type": "number",
+      "required": true
+    },
+    "ticketId": {
+      "type": "number",
+      "required": true
+    },
+    "inner": {
+      "type": "number",
+      "required": true
+    },
+    "outer": {
+      "type": "number",
+      "required": true
+    }
+  },
+  "mixins": {
+    "Timestamp": {}
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}

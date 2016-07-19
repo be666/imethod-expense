@@ -3,15 +3,14 @@
   "version": "1.0.0",
   "main": "server/server.js",
   "scripts": {
-    "start": "node .",
-    "predev": "cd client;npm run dev &",
-    "dev": "pm2-dev ecosystem.json",
+    "dev": "export NODE_ENV=dev && pm2-dev ecosystem.dev.json",
     "pretest": "eslint .",
     "posttest": "nsp check",
-    "build": "cd client;npm run build"
+    "start": "npm install;pm2 startOrRestart ecosystem.json --env bcaring"
   },
   "dependencies": {
-    "body-parser": "^1.15.1",
+    "async": "^2.0.0",
+    "body-parser": "^1.15.2",
     "compression": "^1.6.2",
     "cookie-parser": "^1.4.3",
     "cors": "^2.5.2",

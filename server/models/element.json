@@ -1,17 +1,20 @@
 {
-  "name": "ErrorModel",
+  "name": "Element",
   "base": "PersistedModel",
   "idInjection": true,
   "options": {
     "validateUpsert": true
   },
   "properties": {
-    "code": {
-      "type": "number",
-      "required": true,
-      "format": "int32"
+    "icon": {
+      "type": "string",
+      "required": true
     },
-    "message": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "type": {
       "type": "string",
       "required": true
     }

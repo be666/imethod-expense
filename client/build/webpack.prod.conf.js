@@ -1,6 +1,7 @@
 var path = require('path')
 var config = require('../config')
 var utils = require('./utils')
+var fs = require('fs')
 var webpack = require('webpack')
 var merge = require('webpack-merge')
 var baseWebpackConfig = require('./webpack.base.conf')
@@ -9,10 +10,30 @@ var HtmlWebpackPlugin = require('html-webpack-plugin')
 var env = process.env.NODE_ENV === 'testing'
   ? require('../config/test.env')
   : config.build.env
-
-module.exports = merge(baseWebpackConfig, {
+var _ = require('lodash');
+let entryList = function () {
+  let entryList = []
+  let enterMap = config.enterMap
+  for (let moduleName in enterMap) {
+    let moduleEnterList = enterMap[moduleName];
+    moduleEnterList.forEach(function (x) {
+      let enter = Object.keys(x)[0];
+      entryList.push(new HtmlWebpackPlugin(_.extend({
+        filename: `${enter}.html`,
+        template: `templates/default.ejs`,
+        inject: true,
+        chunks: ['manifest', 'vendor', `${enter}`],
+        chunksSortMode: 'dependency',
+        moduleClass: moduleName,
+        enterClass: enter.replace(new RegExp('/', 'g'), '-')
+      }, x[enter])))
+    });
+  }
+  return entryList;
+}
+var webpackConfig = merge(baseWebpackConfig, {
   module: {
-    loaders: utils.styleLoaders({ sourceMap: config.build.productionSourceMap, extract: true })
+    loaders: utils.styleLoaders({sourceMap: config.build.productionSourceMap, extract: true})
   },
   devtool: config.build.productionSourceMap ? '#source-map' : false,
   output: {
@@ -42,22 +63,7 @@ module.exports = merge(baseWebpackConfig, {
     // generate dist index.html with correct asset hash for caching.
     // you can customize output by editing /index.html
     // see https://github.com/ampedandwired/html-webpack-plugin
-    new HtmlWebpackPlugin({
-      filename: process.env.NODE_ENV === 'testing'
-        ? 'index.html'
-        : config.build.index,
-      template: 'enter/index.html',
-      inject: true,
-      minify: {
-        removeComments: true,
-        collapseWhitespace: true,
-        removeAttributeQuotes: true
-        // more options:
-        // https://github.com/kangax/html-minifier#options-quick-reference
-      },
-      // necessary to consistently work with multiple chunks via CommonsChunkPlugin
-      chunksSortMode: 'dependency'
-    }),
+    ...entryList(),
     // split vendor js into its own file
     new webpack.optimize.CommonsChunkPlugin({
       name: 'vendor',
@@ -65,6 +71,7 @@ module.exports = merge(baseWebpackConfig, {
         // any required modules inside node_modules are extracted to vendor
         return (
           module.resource &&
+          /\.js$/.test(module.resource) &&
           module.resource.indexOf(
             path.join(__dirname, '../node_modules')
           ) === 0
@@ -79,3 +86,20 @@ module.exports = merge(baseWebpackConfig, {
     })
   ]
 })
+if (config.build.productionGzip) {
+  var CompressionWebpackPlugin = require('compression-webpack-plugin')
+  webpackConfig.plugins.push(
+    new CompressionWebpackPlugin({
+      asset: '[path].gz[query]',
+      algorithm: 'gzip',
+      test: new RegExp(
+        '\\.(' +
+        config.build.productionGzipExtensions.join('|') +
+        ')$'
+      ),
+      threshold: 10240,
+      minRatio: 0.8
+    })
+  )
+}
+module.exports = webpackConfig

@@ -4,23 +4,14 @@
     "connector": "memory",
     "file": "server/resource/memory/db.json"
   },
-  "emailDs": {
-    "name": "emailDs",
-    "connector": "mail",
-    "transports": [
-      {
-        "type": "smtp",
-        "host": "smtp.126.com",
-        "secure": true,
-        "port": 465,
-        "tls": {
-          "rejectUnauthorized": false
-        },
-        "auth": {
-          "user": "bcaring@126.com",
-          "pass": "bqxu1106"
-        }
-      }
-    ]
+  "expense": {
+    "name": "expense",
+    "connector": "memory",
+    "file": "server/resource/memory/expense.json"
+  },
+  "remote": {
+    "url": "http://auth.bcaring.cn/api",
+    "name": "remote",
+    "connector": "remote"
   }
 }

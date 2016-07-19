@@ -13,10 +13,6 @@
       "./mixins"
     ]
   },
-  "User": {
-    "dataSource": "db",
-    "public": false
-  },
   "AccessToken": {
     "dataSource": "db",
     "public": false
@@ -33,18 +29,28 @@
     "dataSource": "db",
     "public": false
   },
-  "ErrorModel": {
+  "Account": {
     "dataSource": "db",
+    "public": true
+  },
+  "Ticket": {
+    "dataSource": "db",
+    "public": true
+  },
+  "AccountTicket": {
+    "dataSource": "db",
+    "public": true
+  },
+  "Element": {
+    "dataSource": "db",
+    "public": true
+  },
+  "AuthAccessToken": {
+    "dataSource": "remote",
     "public": false
   },
-  "Email": {
-    "dataSource": "emailDs"
-  },
-  "user": {
+  "AuthAccessUser": {
     "dataSource": "db",
-    "public": true,
-    "options": {
-      "emailVerificationRequired": true
-    }
+    "public": true
   }
 }
