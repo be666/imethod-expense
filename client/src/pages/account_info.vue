@@ -1,7 +1,7 @@
 <template xmlns:v-on="http://www.w3.org/1999/xhtml">
   <div class="i-panel i-grew-h">
     <div class="i-panel-header">
-      account info
+      账号属性
     </div>
     <div class="i-panel-body">
       <form class="i-form"
@@ -10,6 +10,15 @@
         <div class="i-row">
           <label class="i-col-4">name</label>
           <input v-model="accountInfo.name" class="i-col-12">
+        </div>
+        <div class="i-row">
+          <label class="i-col-4">可透支</label>
+          <i_switch_toggle
+            open="是"
+            close="否"
+            v-bind:active.sync="accountInfo.canSigned"
+          >
+          </i_switch_toggle>
         </div>
         <div class="i-text-al-c">
           <div class="i-btn-g i-in-flex">
@@ -27,22 +36,25 @@
   export default{
     data(){
       return {
-        accountInfo: {}
+        accountInfo: {
+          canSigned: 1
+        }
       }
     },
     methods: {
       submitForm(){
-        this.$http.post(this.$tools.resolveUrl("/Accounts"),{
-          name:this.accountInfo.name
-        },function (res, ste, req) {
-          this.$dispatch("link",'account')
+        this.$http.post(this.$tools.resolveUrl("/Accounts"), {
+          name: this.accountInfo.name,
+          signed: this.accountInfo.canSigned ? 1 : 0
+        }, function (res, ste, req) {
+          this.$dispatch("link", 'account')
         }).error(function (res) {
 
-        })
+        });
         return false
       },
       reset(){
-
+        this.$dispatch("link", 'account')
       }
     }
   }

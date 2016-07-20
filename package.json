@@ -1,6 +1,6 @@
 {
-  "name": "IMoney",
-  "version": "1.0.0",
+  "name": "imethod-expense",
+  "version": "0.1.0",
   "main": "server/server.js",
   "scripts": {
     "dev": "export NODE_ENV=dev && pm2-dev ecosystem.dev.json",
@@ -30,6 +30,6 @@
     "type": "",
     "url": ""
   },
-  "license": "UNLICENSED",
-  "description": "IMoney"
+  "license": "MIT",
+  "description": "imethod-expense"
 }

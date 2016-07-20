@@ -5,24 +5,67 @@
   "options": {
     "validateUpsert": true
   },
+  "mixins": {
+    "Timestamp": {}
+  },
   "properties": {
-    "name": {
-      "type": "string",
+    "userId": {
+      "type": "number",
       "required": true
     },
     "elementId": {
       "type": "number",
       "required": true
     },
+    "elementName": {
+      "type": "string",
+      "required": true
+    },
+    "inner": {
+      "type": "number",
+      "required": true
+    },
+    "innerAccountId": {
+      "type": "number",
+      "required": true
+    },
+    "outer": {
+      "type": "number",
+      "required": true
+    },
+    "outerAccountId": {
+      "type": "number",
+      "required": true
+    },
     "tips": {
       "type": "string"
+    },
+    "year": {
+      "type": "number",
+      "required": true
+    },
+    "month": {
+      "type": "number",
+      "required": true
+    },
+    "day": {
+      "type": "number",
+      "required": true
     }
   },
-  "mixins": {
-    "Timestamp": {}
-  },
   "validations": [],
-  "relations": {},
+  "relations": {
+    "innerAccount": {
+      "type": "belongsTo",
+      "model": "Account",
+      "foreignKey": "innerAccountId"
+    },
+    "outerAccount": {
+      "type": "belongsTo",
+      "model": "Account",
+      "foreignKey": "outerAccountId"
+    }
+  },
   "acls": [],
   "methods": {}
 }

@@ -5,6 +5,7 @@ let typeList = [
   'change',       //转换
   'time'          //利息
 ];
-module.exports = function (ErrorModel) {
+module.exports = function (Element) {
+
 
 };

@@ -5,6 +5,9 @@
   "options": {
     "validateUpsert": true
   },
+  "mixins": {
+    "Timestamp": {}
+  },
   "properties": {
     "accountId": {
       "type": "number",
@@ -21,13 +24,28 @@
     "outer": {
       "type": "number",
       "required": true
+    },
+    "year": {
+      "type": "number",
+      "required": true
+    },
+    "month": {
+      "type": "number",
+      "required": true
+    },
+    "day": {
+      "type": "number",
+      "required": true
     }
   },
-  "mixins": {
-    "Timestamp": {}
-  },
   "validations": [],
-  "relations": {},
+  "relations": {
+    "ticket": {
+      "type": "belongsTo",
+      "model": "Ticket",
+      "foreignKey": "ticketId"
+    }
+  },
   "acls": [],
   "methods": {}
 }

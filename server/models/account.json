@@ -5,6 +5,9 @@
   "options": {
     "validateUpsert": true
   },
+  "mixins": {
+    "Timestamp": {}
+  },
   "properties": {
     "name": {
       "type": "string",
@@ -14,16 +17,27 @@
       "type": "number",
       "required": true
     },
+    "signed": {
+      "type": "number",
+      "required": true
+    },
     "userId": {
       "type": "number",
       "required": true
     }
   },
-  "mixins": {
-    "Timestamp": {}
+  "validations": [
+    {
+      "facetName": "server"
+    }
+  ],
+  "relations": {
+    "accountTicket": {
+      "type": "hasMany",
+      "model": "AccountTicket",
+      "foreignKey": "accountId"
+    }
   },
-  "validations": [],
-  "relations": {},
   "acls": [],
   "methods": {}
 }

@@ -19,6 +19,9 @@ module.exports = function (Account) {
       if (!ctx.instance.userId) {
         ctx.instance.userId = userId;
       }
+      if (!ctx.instance.signed) {
+        ctx.instance.signed = 0;
+      }
     }
     next();
   })

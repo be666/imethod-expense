@@ -35,9 +35,17 @@ router.map({
         name: "account-insert",
         component: require("./pages/account_info.vue")
       },
-      "account/:accountId/ticket": {
+      "account/:accountId/tickets": {
         name: "account-ticket",
         component: require("./pages/account_ticket.vue")
+      },
+      "account/:accountId/ticket/:ticketId": {
+        name: "account-ticket-info",
+        component: require("./pages/account_ticket_info.vue")
+      },
+      "account/:accountId/ticket": {
+        name: "account-ticket-insert",
+        component: require("./pages/account_ticket_info.vue")
       },
       "ticket": {
         name: "ticket",

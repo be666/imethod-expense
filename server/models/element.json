@@ -5,22 +5,17 @@
   "options": {
     "validateUpsert": true
   },
+  "mixins": {
+    "Timestamp": {}
+  },
   "properties": {
     "icon": {
-      "type": "string",
-      "required": true
+      "type": "string"
     },
     "name": {
       "type": "string",
       "required": true
-    },
-    "type": {
-      "type": "string",
-      "required": true
     }
-  },
-  "mixins": {
-    "Timestamp": {}
   },
   "validations": [],
   "relations": {},
