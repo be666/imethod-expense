@@ -1,11 +1,13 @@
 <template xmlns:v-bind="http://www.w3.org/1999/xhtml" xmlns:v-on="http://www.w3.org/1999/xhtml">
   <div class="i-row i-scope">
-    <button
-      class="loginBtn"
-      v-on:click="PathToLogin"
-    >
-      统一身份认证
-    </button>
+    <div class="i-col-12 i-text-al-c">
+      <button
+        class="loginBtn"
+        v-on:click="PathToLogin"
+      >
+        统一身份认证
+      </button>
+    </div>
   </div>
 </template>
 <style>
