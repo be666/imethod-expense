@@ -9,10 +9,13 @@
           class="i-row i-border-b"
           v-on:click='ticketInfo(ticket.id)'
         >
-          <span class="i-col-6">
+          <span class="i-col-4">
             {{ticket.elementName}}
           </span>
-          <span class="i-col-6 i-text-al-r">
+          <span class="i-col-5">
+            {{accountName(ticket)}}
+          </span>
+          <span class="i-col-3 i-text-al-r">
             {{showMoney(ticket)}}
           </span>
         </div>
@@ -45,12 +48,13 @@
             where: {
               userId: this.userId
             },
+            include: ['innerAccount', 'outerAccount'],
             order: ['createdAt DESC']
           }
         }, function (res, ste, req) {
           $this.ticketList = res;
         }).error(function (res) {
-
+          $this.$dialog.error(res.error.message)
         })
       }
     },
@@ -77,8 +81,21 @@
         if (money >= 0) {
           return `+ ${money}`
         } else {
-          return `- ${money}`
+          return `- ${Math.abs(money)}`
         }
+      },
+      accountName(ticket){
+        let name = [];
+        if (ticket.innerAccount && ticket.innerAccount.name) {
+          name.push(`i:${ticket.innerAccount.name}`)
+        }
+        if (ticket.outerAccount && ticket.outerAccount.name) {
+          name.push(`o:${ticket.outerAccount.name}`)
+        }
+        if (name.length > 1) {
+          return name.join("/")
+        }
+        return name[0]
       }
     }
   }

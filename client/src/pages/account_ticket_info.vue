@@ -102,12 +102,13 @@
             $this.ticketInfo.innerAccount = isFind;
           }
         }).error(function (res) {
-
+          this.$dialog.error(res.error.message)
         })
       }
     },
     methods: {
       submitForm(){
+        let $this=this;
         this.$http.post(this.$tools.resolveUrl("/Tickets"), {
           inner: this.ticketInfo.inner,
           innerAccountId: this.ticketInfo.innerAccount.id,
@@ -116,9 +117,9 @@
           elementName: this.ticketInfo.elementName,
           tips: this.ticketInfo.tips
         }, function (res, ste, req) {
-          this.$dispatch("link", 'account')
+          $this.$dispatch("link", 'account')
         }).error(function (res) {
-
+          $this.$dialog.error(res.error.message)
         });
         return false
       },

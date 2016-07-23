@@ -8,19 +8,9 @@ module.exports = function (AuthAccessUser) {
       var reg = this.registry;
       this.AuthAccessToken = reg.getModel('AuthAccessToken');
       this.AccessToken = reg.getModel('AccessToken');
+      this.AuthUser = reg.getModel('AuthUser');
     }
   };
-
-  AuthAccessUser.me = function (next) {
-    var ctx = loopback.getCurrentContext();
-    var currentUser = ctx && ctx.get('currentUser');
-    next(null, currentUser);
-  };
-
-  AuthAccessUser.remoteMethod("me", {
-    returns: {type: 'Object', root: true},
-    http: {path: "/me", verb: "post"}
-  });
 
   AuthAccessUser.oauth = function (accessToken, res) {
     AuthAccessUser.resolveRelatedModels();
@@ -33,22 +23,28 @@ module.exports = function (AuthAccessUser) {
       let user = token.user;
       AuthAccessUser.findOrCreate({
         where: {
-          id: user.id,
-          username: user.username,
-          email: user.email,
-          realm: user.realm
+          oauthId: user.id,
+          provider: 'ith-oauth',
+          authScheme: 'ith',
         }
       }, {
-        id: user.id,
-        username: user.username,
+        provider: 'ith-oauth',
+        authScheme: 'ith',
+        oauthId: user.id,
         email: user.email,
         realm: user.realm
       }, function (err, inst, ic) {
         if (err) {
           return res.redirect("/");
         }
-        AccessToken.create(token, function (err,insts) {
+        AccessToken.create({
+          id: token.id,
+          ttl: token.ttl,
+          created: token.created,
+          userId: inst.userId
+        }, function (err, insts) {
           if (err) {
+            console.log(err);
             return res.redirect("/");
           }
           res.cookie('access_token', accessToken, {signed: true});
@@ -57,6 +53,32 @@ module.exports = function (AuthAccessUser) {
       })
     });
   };
+
+  AuthAccessUser.observe('before save', function (ctx, next) {
+    AuthAccessUser.resolveRelatedModels();
+    let AuthUser = AuthAccessUser.AuthUser;
+    if (ctx.instance) {
+      let email = ctx.instance.email;
+      let realm = ctx.instance.realm;
+      AuthUser.findOrCreate({
+        where: {
+          email: email
+        }
+      }, {
+        email: email,
+        username:email,
+        realm: realm
+      }, function (err, user) {
+        if (err) {
+          return next(err);
+        }
+        ctx.instance.userId = user.id;
+        next();
+      })
+    } else {
+      next();
+    }
+  });
 
   AuthAccessUser.remoteMethod("oauth", {
     accepts: [

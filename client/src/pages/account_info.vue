@@ -20,6 +20,15 @@
           >
           </i_switch_toggle>
         </div>
+        <div class="i-row">
+          <label class="i-col-4">固定资产</label>
+          <i_switch_toggle
+            open="是"
+            close="否"
+            v-bind:active.sync="accountInfo.isAssets"
+          >
+          </i_switch_toggle>
+        </div>
         <div class="i-text-al-c">
           <div class="i-btn-g i-in-flex">
             <button type="submit">提交</button>
@@ -37,19 +46,22 @@
     data(){
       return {
         accountInfo: {
-          canSigned: 1
+          canSigned: 0,
+          isAssets: 0
         }
       }
     },
     methods: {
       submitForm(){
+        let $this = this;
         this.$http.post(this.$tools.resolveUrl("/Accounts"), {
           name: this.accountInfo.name,
-          signed: this.accountInfo.canSigned ? 1 : 0
+          signed: this.accountInfo.canSigned ? 1 : 0,
+          assets: this.accountInfo.isAssets ? 1 : 0
         }, function (res, ste, req) {
-          this.$dispatch("link", 'account')
+          $this.$dispatch("link", 'account')
         }).error(function (res) {
-
+          $this.$dialog.error(res.error.message)
         });
         return false
       },

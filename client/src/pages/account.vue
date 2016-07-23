@@ -114,14 +114,16 @@
       sumMoney(){
         let sum = 0;
         for (let acc of this.accountList) {
-          sum += acc.money;
+          if (acc.assets == 0) {
+            sum += acc.money;
+          }
         }
         return sum;
       },
       neMoney(){
         let sum = 0;
         for (let acc of this.accountList) {
-          if (acc.money < 0) {
+          if (acc.signed == 1) {
             sum += acc.money;
           }
         }
@@ -130,7 +132,7 @@
       Money(){
         let sum = 0;
         for (let acc of this.accountList) {
-          if (acc.money > 0) {
+          if (acc.money > 0 && acc.assets == 0) {
             sum += acc.money;
           }
         }

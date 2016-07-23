@@ -1,7 +1,7 @@
 let {resolveUrl,setUserInfo,getUserInfo}= require('./tools');
 let valid = (app, success, error) => {
   if (!getUserInfo()) {
-    app.$http.post(resolveUrl("/AuthAccessUsers/me"), function (data, status, request) {
+    app.$http.post(resolveUrl("/AuthUsers/me"), function (data, status, request) {
       if (data) {
         setUserInfo(data);
         success()

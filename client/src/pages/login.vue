@@ -25,10 +25,11 @@
     },
     methods: {
       PathToLogin(){
+        let $this=this;
         this.$http.get(this.$tools.resolveUrl("/AuthAccessUsers/config"), function (res, ste, req) {
           window.location.href = this.$config.authUrl + res;
         }).error(function (res) {
-
+          $this.$dialog.error(res.error.message)
         })
       }
     }

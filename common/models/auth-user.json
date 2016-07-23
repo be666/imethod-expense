@@ -1,0 +1,32 @@
+{
+  "name": "AuthUser",
+  "base": "User",
+  "idInjection": true,
+  "options": {
+    "caseSensitiveEmail": false,
+    "validateUpsert": true
+  },
+  "properties": {
+    "password": {
+      "type": "string",
+      "required": false
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [
+    {
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "DENY"
+    },
+    {
+      "accessType": "EXECUTE",
+      "principalType": "ROLE",
+      "principalId": "$authenticated",
+      "permission": "ALLOW",
+      "property": "me"
+    }
+  ],
+  "methods": {}
+}

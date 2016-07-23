@@ -1,15 +1,35 @@
 {
   "name": "AuthAccessUser",
-  "base": "User",
+  "base": "PersistedModel",
   "idInjection": true,
   "options": {
-    "caseSensitiveEmail": false,
     "validateUpsert": true
   },
   "properties": {
-    "password": {
-      "type": "string",
-      "required": false
+    "provider": {
+      "type": "String",
+      "required": true,
+      "comments": "ith-oauth"
+    },
+    "authScheme": {
+      "type": "String",
+      "comments": "ith"
+    },
+    "userId": {
+      "type": "String",
+      "required": true
+    },
+    "oauthId": {
+      "type": "String",
+      "required": true
+    },
+    "realm": {
+      "type": "String",
+      "comments": "ith"
+    },
+    "email": {
+      "type": "String",
+      "comments": "ith"
     }
   },
   "validations": [],
@@ -33,13 +53,6 @@
       "principalId": "$everyone",
       "permission": "ALLOW",
       "property": "config"
-    },
-    {
-      "accessType": "EXECUTE",
-      "principalType": "ROLE",
-      "principalId": "$authenticated",
-      "permission": "ALLOW",
-      "property": "me"
     }
   ],
   "methods": {}

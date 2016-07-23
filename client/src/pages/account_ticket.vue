@@ -28,10 +28,13 @@
           class="i-row i-border-b"
           v-on:click='ticketInfo(accountTicket.tickedId)'
         >
-          <span class="i-col-6">
+          <span class="i-col-4">
             {{accountTicket.ticket.elementName}}
           </span>
-          <span class="i-col-6 i-text-al-r">
+          <span class="i-col-5">
+            {{accountTicket.ticket.tips}}
+          </span>
+          <span class="i-col-3 i-text-al-r">
             {{showMoney(accountTicket)}}
           </span>
         </div>
@@ -62,7 +65,7 @@
         this.$http.get(this.$tools.resolveUrl(`/Accounts/${this.accountId}`), function (res, ste, req) {
           $this.accountInfo = res;
         }).error(function (res) {
-
+          $this.$dialog.error(res.error.message)
         })
       },
       refreshList() {
@@ -78,7 +81,7 @@
         }, function (res, ste, req) {
           $this.accountTicketList = res;
         }).error(function (res) {
-
+          $this.$dialog.error(res.error.message)
         })
       }
     },
