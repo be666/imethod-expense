@@ -12,6 +12,10 @@
           <input v-model="ticketInfo.elementName" class="i-col-12">
         </div>
         <div class="i-row">
+          <label class="i-col-4">时间</label>
+          <input v-model="ticketInfo.date" class="i-col-12" type="date">
+        </div>
+        <div class="i-row">
           <label class="i-col-4">收入</label>
           <i_select_single
             text="name"
@@ -108,13 +112,22 @@
     },
     methods: {
       submitForm(){
-        let $this=this;
+        let $this = this;
+        let date = this.ticketInfo.date;
+        let dateStr = this.$tools.getDateStr(date);
+        let dateArr = dateStr.split("-");
+        let year = dateArr[0];
+        let month = dateArr[1];
+        let day = dateArr[2];
         this.$http.post(this.$tools.resolveUrl("/Tickets"), {
           inner: this.ticketInfo.inner,
           innerAccountId: this.ticketInfo.innerAccount.id,
           outer: this.ticketInfo.outer,
           outerAccountId: this.ticketInfo.outerAccount.id,
           elementName: this.ticketInfo.elementName,
+          year: year,
+          month: month,
+          day: day,
           tips: this.ticketInfo.tips
         }, function (res, ste, req) {
           $this.$dispatch("link", 'account')

@@ -31,10 +31,13 @@
           <span class="i-col-4">
             {{accountTicket.ticket.elementName}}
           </span>
-          <span class="i-col-5">
+          <span class="i-col-8 i-text-al-r">
+            {{accountTicket.ticket.year}}/{{accountTicket.ticket.month}}/{{accountTicket.ticket.day}}
+          </span>
+          <span class="i-col-6">
             {{accountTicket.ticket.tips}}
           </span>
-          <span class="i-col-3 i-text-al-r">
+          <span class="i-col-6 i-text-al-r">
             {{showMoney(accountTicket)}}
           </span>
         </div>
@@ -76,7 +79,8 @@
         this.$http.get(this.$tools.resolveUrl(`/Accounts/${this.accountId}/accountTicket`), {
           filter: {
             include: "ticket",
-            order: ['createdAt DESC']
+            order: ['createdAt DESC'],
+            limit:20
           }
         }, function (res, ste, req) {
           $this.accountTicketList = res;

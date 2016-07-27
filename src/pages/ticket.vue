@@ -12,10 +12,13 @@
           <span class="i-col-4">
             {{ticket.elementName}}
           </span>
-          <span class="i-col-5">
+          <span class="i-col-8  i-text-al-r">
+            {{ticket.year}}/{{ticket.month}}/{{ticket.day}}
+          </span>
+          <span class="i-col-6">
             {{accountName(ticket)}}
           </span>
-          <span class="i-col-3 i-text-al-r">
+          <span class="i-col-6 i-text-al-r">
             {{showMoney(ticket)}}
           </span>
         </div>
@@ -49,7 +52,8 @@
               userId: this.userId
             },
             include: ['innerAccount', 'outerAccount'],
-            order: ['createdAt DESC']
+            order: ['createdAt DESC'],
+            limit:20
           }
         }, function (res, ste, req) {
           $this.ticketList = res;
