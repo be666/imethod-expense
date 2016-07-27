@@ -22,3 +22,4 @@ server/resource
 
 client/dist
 *.bcaring.json
+*.dev.json
