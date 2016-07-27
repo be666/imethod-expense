@@ -22,8 +22,8 @@
       "user": "root",
       "host": "bcaring.cn",
       "ref": "origin/master",
-      "repo": "git@github.com:iMethod/IMoney.git",
-      "path": "/var/www/van",
+      "repo": "git@github.com:iMethod/imethod-expense.git",
+      "path": "/var/www/imethod-expense",
       "post-deploy": "npm install;npm run build;pm2 startOrRestart ecosystem.json --env bcaring"
     }
   }
