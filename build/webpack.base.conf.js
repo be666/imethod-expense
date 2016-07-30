@@ -48,7 +48,7 @@ module.exports = {
       'src': path.resolve(__dirname, '../src'),
       'assets': path.resolve(__dirname, '../src/assets'),
       'components': path.resolve(__dirname, '../src/components'),
-      'IConf': path.resolve(__dirname, '../src/config.js')
+      'IConf': path.resolve(__dirname, '../src/config/config.js')
     }
   },
   resolveLoader: {

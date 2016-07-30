@@ -1,11 +1,13 @@
 let config = {
-  siteUrl: "http://bcaring.cn",
-  apiUrl: "/api",
-  loginUrl: "/login",
-  uploadUrl: "/fileUpload",
-  auth: {
-    ignoreAll: false,
-    ignore: [
+  "siteUrl": "",
+  "apiUrl": "/api",
+  "authUrl": "http://auth.bcaring.cn/login?appId=",
+  "siteName": "expense",
+  "loginUrl": "/login",
+  "uploadUrl": "/fileUpload",
+  "auth": {
+    "ignoreAll": false,
+    "ignore": [
       "/login",
       "/sign"
     ]

@@ -52,7 +52,7 @@
               userId: this.userId
             },
             include: ['innerAccount', 'outerAccount'],
-            order: ['createdAt DESC'],
+            order: ['year DESC','month DESC','day DESC'],
             limit:20
           }
         }, function (res, ste, req) {

@@ -79,7 +79,7 @@
         this.$http.get(this.$tools.resolveUrl(`/Accounts/${this.accountId}/accountTicket`), {
           filter: {
             include: "ticket",
-            order: ['createdAt DESC'],
+            order: ['year DESC','month DESC','day DESC'],
             limit:20
           }
         }, function (res, ste, req) {
