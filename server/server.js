@@ -13,7 +13,7 @@ app.use(function setCurrentUser(req, res, next) {
   if (!req.accessToken) {
     return next();
   }
-  app.models.AuthAccessUser.findById(req.accessToken.userId, function (err, user) {
+  app.models.AuthUser.findById(req.accessToken.userId, function (err, user) {
     if (err) {
       return next(err);
     }
