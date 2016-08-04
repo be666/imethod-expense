@@ -56,5 +56,21 @@
   "AuthUser": {
     "dataSource": "db",
     "public": true
+  },
+  "AccountMonthStatistic": {
+    "dataSource": "expense",
+    "public": true
+  },
+  "AccountYearStatistic": {
+    "dataSource": "expense",
+    "public": true
+  },
+  "ElementMonthStatistic": {
+    "dataSource": "expense",
+    "public": true
+  },
+  "ElementYearStatistic": {
+    "dataSource": "expense",
+    "public": true
   }
 }

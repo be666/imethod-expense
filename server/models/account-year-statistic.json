@@ -1,0 +1,43 @@
+{
+  "name": "AccountYearStatistic",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "mixins": {
+    "Timestamp": {}
+  },
+  "properties": {
+    "userId": {
+      "type": "number",
+      "required": true
+    },
+    "accountId": {
+      "type": "number",
+      "required": true
+    },
+    "inner": {
+      "type": "number",
+      "required": true
+    },
+    "outer": {
+      "type": "number",
+      "required": true
+    },
+    "year": {
+      "type": "number",
+      "required": true
+    }
+  },
+  "validations": [],
+  "relations": {
+    "account": {
+      "type": "belongsTo",
+      "model": "Account",
+      "foreignKey": "accountId"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}
