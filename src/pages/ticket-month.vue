@@ -4,7 +4,7 @@
       class="i-row"
     >
       <div class="i-col-12 i-text-al-c">
-        {{year}}年
+        {{year}}年{{month}}月
       </div>
     </div>
     <template v-for="ticket of ticketList">
@@ -37,6 +37,7 @@
       return {
         userId: this.$tools.getUserInfo().id,
         year: currentDate.getFullYear(),
+        month: currentDate.getMonth() + 1,
         ticketList: []
       }
     },
@@ -48,11 +49,13 @@
         if (!this.userId) {
           return false;
         }
+
         let $this = this;
         this.$http.get(this.$tools.resolveUrl(`/Tickets`), {
           filter: {
             where: {
               year: $this.year,
+              month: $this.month,
               userId: this.userId
             },
             include: ['innerAccount', 'outerAccount'],

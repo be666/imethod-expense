@@ -1,29 +1,20 @@
-<template xmlns:v-on="http://www.w3.org/1999/xhtml">
+<template xmlns:v-on="http://www.w3.org/1999/xhtml" xmlns:v-bind="http://www.w3.org/1999/xhtml">
   <div class="i-panel i-grew-h">
     <div class="i-panel-header" v-on:click="pathTo('account')">
       消费纪录
     </div>
-    <div class="i-panel-body">
-      <template v-for="ticket of ticketList">
-        <div
-          class="i-row i-border-b"
-          v-on:click='ticketInfo(ticket.id)'
-        >
-          <span class="i-col-4">
-            {{ticket.elementName}}
-          </span>
-          <span class="i-col-8  i-text-al-r">
-            {{ticket.year}}/{{ticket.month}}/{{ticket.day}}
-          </span>
-          <span class="i-col-6">
-            {{accountName(ticket)}}
-          </span>
-          <span class="i-col-6 i-text-al-r">
-            {{showMoney(ticket)}}
-          </span>
-        </div>
-      </template>
+    <div class="i-row">
+      <div class="i-col-4 i-text-al-c" v-on:click="toggle('year')"
+           v-bind:class="[activeToggle('year')?'i-active':'']">年
+      </div>
+      <div class="i-col-4 i-text-al-c" v-on:click="toggle('month')"
+           v-bind:class="[activeToggle('month')?'i-active':'']">月
+      </div>
+      <div class="i-col-4 i-text-al-c" v-on:click="toggle('day')"
+           v-bind:class="[activeToggle('day')?'i-active':'']">日
+      </div>
     </div>
+    <component :is="activeView"></component>
   </div>
 </template>
 <style>
@@ -33,37 +24,18 @@
 </style>
 <script>
   export default{
+    components: {
+      day: require('./ticket-day.vue'),
+      month: require('./ticket-month.vue'),
+      year: require('./ticket-year.vue')
+    },
     data(){
       return {
-        userId: this.$tools.getUserInfo().id,
-        ticketList: []
+        activeView: 'day'
       }
     },
-    events: {
-      refreshList() {
-        if (!this.userId) {
-          return false;
-        }
-
-        let $this = this;
-        this.$http.get(this.$tools.resolveUrl(`/Tickets`), {
-          filter: {
-            where: {
-              userId: this.userId
-            },
-            include: ['innerAccount', 'outerAccount'],
-            order: ['year DESC','month DESC','day DESC'],
-            limit:20
-          }
-        }, function (res, ste, req) {
-          $this.ticketList = res;
-        }).error(function (res) {
-          $this.$dialog.error(res.error.message)
-        })
-      }
-    },
+    events: {},
     ready(){
-      this.$dispatch('refreshList');
     },
     methods: {
       pathTo(name, params){
@@ -100,6 +72,12 @@
           return name.join("/")
         }
         return name[0]
+      },
+      toggle(type){
+        this.activeView = type;
+      },
+      activeToggle(type){
+        return this.activeView == type;
       }
     }
   }

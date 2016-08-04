@@ -4,9 +4,10 @@
       class="i-row"
     >
       <div class="i-col-12 i-text-al-c">
-        {{year}}年
+        {{year}}年{{month}}月{{day}}日
       </div>
     </div>
+    {{ticketList}}
     <template v-for="ticket of ticketList">
       <div
         class="i-row i-border-b"
@@ -37,6 +38,8 @@
       return {
         userId: this.$tools.getUserInfo().id,
         year: currentDate.getFullYear(),
+        month: currentDate.getMonth() + 1,
+        day: currentDate.getDate(),
         ticketList: []
       }
     },
@@ -53,6 +56,8 @@
           filter: {
             where: {
               year: $this.year,
+              month: $this.month,
+              day: $this.day,
               userId: this.userId
             },
             include: ['innerAccount', 'outerAccount'],
