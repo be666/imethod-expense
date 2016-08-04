@@ -40,7 +40,8 @@
         year: currentDate.getFullYear(),
         month: currentDate.getMonth() + 1,
         day: currentDate.getDate(),
-        ticketList: []
+        elementList: [],
+        accountList: []
       }
     },
     ready(){
@@ -58,7 +59,7 @@
               year: $this.year,
               month: $this.month,
               day: $this.day,
-              userId: this.userId
+              userId: $this.userId
             },
             include: ['innerAccount', 'outerAccount'],
             order: ['year DESC', 'month DESC', 'day DESC']

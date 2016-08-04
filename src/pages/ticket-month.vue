@@ -4,28 +4,69 @@
       class="i-row"
     >
       <div class="i-col-12 i-text-al-c">
-        {{year}}年{{month}}月
+        {{year}}年{{month}}月 <a v-on:click='stat()'>刷新</a>
       </div>
     </div>
-    <template v-for="ticket of ticketList">
+    <div class="i-row">
       <div
         class="i-row i-border-b"
-        v-on:click='ticketInfo(ticket.id)'
       >
           <span class="i-col-4">
-            {{ticket.elementName}}
+            account
           </span>
-        <span class="i-col-8  i-text-al-r">
-            {{ticket.year}}/{{ticket.month}}/{{ticket.day}}
+        <span class="i-col-4 i-text-al-r">
+            收入
           </span>
-        <span class="i-col-6">
-            {{accountName(ticket)}}
-          </span>
-        <span class="i-col-6 i-text-al-r">
-            {{showMoney(ticket)}}
+        <span class="i-col-4 i-text-al-r">
+            支出
           </span>
       </div>
-    </template>
+      <template v-for="account of accountList">
+        <div
+          class="i-row i-border-b"
+        >
+          <span class="i-col-4">
+            {{account.account.name}}
+          </span>
+          <span class="i-col-4 i-text-al-r">
+            {{account.inner}}
+          </span>
+          <span class="i-col-4 i-text-al-r">
+            {{account.outer}}
+          </span>
+        </div>
+      </template>
+    </div>
+    <div class="i-row">
+      <div
+        class="i-row i-border-b"
+      >
+          <span class="i-col-4">
+            element
+          </span>
+        <span class="i-col-4 i-text-al-r">
+            收入
+          </span>
+        <span class="i-col-4 i-text-al-r">
+            支出
+          </span>
+      </div>
+      <template v-for="element of elementList">
+        <div
+          class="i-row i-border-b"
+        >
+          <span class="i-col-4">
+            {{element.element.name}}
+          </span>
+          <span class="i-col-4 i-text-al-r">
+            {{element.inner}}
+          </span>
+          <span class="i-col-4 i-text-al-r">
+            {{element.outer}}
+          </span>
+        </div>
+      </template>
+    </div>
   </div>
 </template>
 <style>
@@ -38,31 +79,82 @@
         userId: this.$tools.getUserInfo().id,
         year: currentDate.getFullYear(),
         month: currentDate.getMonth() + 1,
-        ticketList: []
+        elementList: [],
+        accountList: []
       }
     },
     ready(){
-      this.$dispatch('refresh');
+      this.$dispatch('refreshE');
+      this.$dispatch('refreshA');
     },
     events: {
-      refresh(){
+      refreshE(){
         if (!this.userId) {
           return false;
         }
 
         let $this = this;
-        this.$http.get(this.$tools.resolveUrl(`/Tickets`), {
+        this.$http.get(this.$tools.resolveUrl(`/ElementMonthStatistics`), {
           filter: {
             where: {
               year: $this.year,
               month: $this.month,
-              userId: this.userId
+              userId: $this.userId
             },
-            include: ['innerAccount', 'outerAccount'],
-            order: ['year DESC', 'month DESC', 'day DESC']
+            include: 'element'
           }
         }, function (res, ste, req) {
-          $this.ticketList = res;
+          $this.elementList = res;
+        }).error(function (res) {
+          $this.$dialog.error(res.error.message)
+        })
+      },
+      refreshA(){
+        if (!this.userId) {
+          return false;
+        }
+        let $this = this;
+        this.$http.get(this.$tools.resolveUrl(`/AccountMonthStatistics`), {
+          filter: {
+            where: {
+              year: $this.year,
+              month: $this.month,
+              userId: $this.userId
+            },
+            include: 'account'
+          }
+        }, function (res, ste, req) {
+          $this.accountList = res;
+        }).error(function (res) {
+          $this.$dialog.error(res.error.message)
+        })
+      },
+      statE(){
+        if (!this.userId) {
+          return false;
+        }
+        let $this = this;
+        this.$http.post(this.$tools.resolveUrl(`/ElementMonthStatistics/refresh`), {
+          year: $this.year,
+          month: $this.month,
+          userId: $this.userId
+        }, function (res, ste, req) {
+
+        }).error(function (res) {
+          $this.$dialog.error(res.error.message)
+        })
+      },
+      statA(){
+        if (!this.userId) {
+          return false;
+        }
+        let $this = this;
+        this.$http.post(this.$tools.resolveUrl(`/AccountMonthStatistics/refresh`), {
+          year: $this.year,
+          month: $this.month,
+          userId: $this.userId
+        }, function (res, ste, req) {
+
         }).error(function (res) {
           $this.$dialog.error(res.error.message)
         })
@@ -89,6 +181,10 @@
           return name.join("/")
         }
         return name[0]
+      },
+      stat(){
+        this.$dispatch('statA');
+        this.$dispatch('statE');
       }
     }
   }
