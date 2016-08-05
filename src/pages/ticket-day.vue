@@ -4,10 +4,11 @@
       class="i-row"
     >
       <div class="i-col-12 i-text-al-c">
+        <button v-on:click='pre()'><</button>
         {{year}}年{{month}}月{{day}}日
+        <button v-on:click='next()'>></button>
       </div>
     </div>
-    {{ticketList}}
     <template v-for="ticket of ticketList">
       <div
         class="i-row i-border-b"
@@ -40,8 +41,7 @@
         year: currentDate.getFullYear(),
         month: currentDate.getMonth() + 1,
         day: currentDate.getDate(),
-        elementList: [],
-        accountList: []
+        ticketList: []
       }
     },
     ready(){
@@ -92,6 +92,24 @@
           return name.join("/")
         }
         return name[0]
+      },
+      pre(){
+        let $this = this;
+        let thisDate = new Date(`${$this.year}/${$this.month}/${$this.day}`);
+        let preDate = new Date(thisDate.getTime() - 1000 * 60 * 60 * 24);
+        $this.year = preDate.getFullYear();
+        $this.month = preDate.getMonth() + 1;
+        $this.day = preDate.getDate();
+        this.$dispatch('refresh');
+      },
+      next(){
+        let $this = this;
+        let thisDate = new Date(`${$this.year}/${$this.month}/${$this.day}`);
+        let preDate = new Date(thisDate.getTime() + 1000 * 60 * 60 * 24);
+        $this.year = preDate.getFullYear();
+        $this.month = preDate.getMonth() + 1;
+        $this.day = preDate.getDate();
+        this.$dispatch('refresh');
       }
     }
   }

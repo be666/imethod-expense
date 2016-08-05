@@ -4,7 +4,10 @@
       class="i-row"
     >
       <div class="i-col-12 i-text-al-c">
-        {{year}}年 <a v-on:click='stat()'>刷新</a>
+        <button v-on:click='pre()'><</button>
+        {{year}}年
+        <button v-on:click='next()'>></button>
+        <a v-on:click='stat()'>刷新</a>
       </div>
     </div>
     <div class="i-row">
@@ -44,25 +47,19 @@
           <span class="i-col-4">
             element
           </span>
-        <span class="i-col-4 i-text-al-r">
-            收入
-          </span>
-        <span class="i-col-4 i-text-al-r">
-            支出
+        <span class="i-col-8 i-text-al-r">
+            总计
           </span>
       </div>
       <template v-for="element of elementList">
-        <div
-          class="i-row i-border-b"
+        <div v-if='element.inner - element.outer'
+             class="i-row i-border-b"
         >
           <span class="i-col-4">
             {{element.element.name}}
           </span>
-          <span class="i-col-4 i-text-al-r">
-            {{element.inner}}
-          </span>
-          <span class="i-col-4 i-text-al-r">
-            {{element.outer}}
+          <span class="i-col-8 i-text-al-r">
+            {{showMoney(element)}}
           </span>
         </div>
       </template>
@@ -135,7 +132,7 @@
           year: $this.year,
           userId: $this.userId
         }, function (res, ste, req) {
-
+          this.$dispatch('refreshE');
         }).error(function (res) {
           $this.$dialog.error(res.error.message)
         })
@@ -149,15 +146,15 @@
           year: $this.year,
           userId: $this.userId
         }, function (res, ste, req) {
-
+          this.$dispatch('refreshA');
         }).error(function (res) {
           $this.$dialog.error(res.error.message)
         })
       }
     },
     methods: {
-      showMoney(accountTicket){
-        let money = accountTicket.inner - accountTicket.outer;
+      showMoney(element){
+        let money = element.inner - element.outer;
         if (money >= 0) {
           return `+ ${money}`
         } else {
@@ -180,6 +177,16 @@
       stat(){
         this.$dispatch('statA');
         this.$dispatch('statE');
+      },
+      pre(){
+        this.year = this.year - 1;
+        this.$dispatch('refreshE');
+        this.$dispatch('refreshA');
+      },
+      next(){
+        this.year = this.year + 1;
+        this.$dispatch('refreshE');
+        this.$dispatch('refreshA');
       }
     }
   }

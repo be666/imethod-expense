@@ -4,7 +4,10 @@
       class="i-row"
     >
       <div class="i-col-12 i-text-al-c">
-        {{year}}年{{month}}月 <a v-on:click='stat()'>刷新</a>
+        <button v-on:click='pre()'><</button>
+        {{year}}年{{month}}月
+        <button v-on:click='next()'>></button>
+        <button v-on:click='stat()'>刷新</button>
       </div>
     </div>
     <div class="i-row">
@@ -45,24 +48,19 @@
             element
           </span>
         <span class="i-col-4 i-text-al-r">
-            收入
-          </span>
-        <span class="i-col-4 i-text-al-r">
-            支出
+            总计
           </span>
       </div>
       <template v-for="element of elementList">
         <div
+          v-if='element.inner - element.outer'
           class="i-row i-border-b"
         >
           <span class="i-col-4">
             {{element.element.name}}
           </span>
-          <span class="i-col-4 i-text-al-r">
-            {{element.inner}}
-          </span>
-          <span class="i-col-4 i-text-al-r">
-            {{element.outer}}
+          <span class="i-col-8 i-text-al-r">
+          {{showMoney(element)}}
           </span>
         </div>
       </template>
@@ -139,7 +137,7 @@
           month: $this.month,
           userId: $this.userId
         }, function (res, ste, req) {
-
+          this.$dispatch('refreshE');
         }).error(function (res) {
           $this.$dialog.error(res.error.message)
         })
@@ -154,15 +152,15 @@
           month: $this.month,
           userId: $this.userId
         }, function (res, ste, req) {
-
+          this.$dispatch('refreshA');
         }).error(function (res) {
           $this.$dialog.error(res.error.message)
         })
       }
     },
     methods: {
-      showMoney(accountTicket){
-        let money = accountTicket.inner - accountTicket.outer;
+      showMoney(element){
+        let money = element.inner - element.outer;
         if (money >= 0) {
           return `+ ${money}`
         } else {
@@ -185,6 +183,28 @@
       stat(){
         this.$dispatch('statA');
         this.$dispatch('statE');
+      },
+      pre(){
+        let $this = this;
+        if ($this.month == 1) {
+          $this.month = 12;
+          $this.year = $this.year - 1;
+        } else {
+          $this.month = $this.month - 1;
+        }
+        this.$dispatch('refreshE');
+        this.$dispatch('refreshA');
+      },
+      next(){
+        let $this = this;
+        if ($this.month == 12) {
+          $this.month = 1;
+          $this.year = $this.year + 1;
+        } else {
+          $this.month = $this.month + 1;
+        }
+        this.$dispatch('refreshE');
+        this.$dispatch('refreshA');
       }
     }
   }
