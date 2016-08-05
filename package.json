@@ -5,7 +5,6 @@
   "scripts": {
     "dev": "export NODE_ENV=dev && pm2-dev ecosystem.dev.json",
     "pretest": "eslint .",
-    "build": "cd client;npm install && npm run build ",
     "posttest": "nsp check",
     "start": "npm install;pm2 startOrRestart ecosystem.json --env bcaring"
   },

@@ -24,7 +24,7 @@
       "ref": "origin/master",
       "repo": "git@github.com:iMethod/imethod-expense.git",
       "path": "/var/www/imethod-expense",
-      "post-deploy": "npm install;npm run build;pm2 startOrRestart ecosystem.json --env bcaring"
+      "post-deploy": "npm install;pm2 startOrRestart ecosystem.json --env bcaring"
     }
   }
 }
