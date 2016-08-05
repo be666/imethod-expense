@@ -4,9 +4,9 @@
       class="i-row"
     >
       <div class="i-col-12 i-text-al-c">
-        <button v-on:click='pre()'><</button>
+        <button v-on:click='pre()'>&lt;</button>
         {{year}}年{{month}}月{{day}}日
-        <button v-on:click='next()'>></button>
+        <button v-on:click='next()'>&gt;</button>
       </div>
     </div>
     <template v-for="ticket of ticketList">

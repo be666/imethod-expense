@@ -4,9 +4,9 @@
       class="i-row"
     >
       <div class="i-col-12 i-text-al-c">
-        <button v-on:click='pre()'><</button>
+        <button v-on:click='pre()'>&lt;</button>
         {{year}}年
-        <button v-on:click='next()'>></button>
+        <button v-on:click='next()'>&gt;</button>
         <a v-on:click='stat()'>刷新</a>
       </div>
     </div>
