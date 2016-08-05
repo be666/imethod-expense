@@ -46,7 +46,6 @@ module.exports = function (AccountYearStatistic) {
           let inner = 0;
           let outer = 0;
           for (let ticket of account.accountTicket) {
-            console.log(ticket.year)
             inner = inner + ticket.inner;
             outer = outer + ticket.outer;
           }
