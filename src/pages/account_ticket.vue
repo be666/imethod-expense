@@ -19,10 +19,8 @@
           + 新增
         </button>
       </div>
-      <div class="i-row">
-        <div class="i-col-6">{{accountInfo.inner}}</div>
-        <div class="i-col-6">{{accountInfo.outer}}</div>
-      </div>
+    </div>
+    <div class="i-panel-body">
       <template v-for="accountTicket of accountTicketList">
         <div
           class="i-row i-border-b"
@@ -79,8 +77,8 @@
         this.$http.get(this.$tools.resolveUrl(`/Accounts/${this.accountId}/accountTicket`), {
           filter: {
             include: "ticket",
-            order: ['year DESC','month DESC','day DESC'],
-            limit:20
+            order: ['year DESC', 'month DESC', 'day DESC'],
+            limit: 20
           }
         }, function (res, ste, req) {
           $this.accountTicketList = res;

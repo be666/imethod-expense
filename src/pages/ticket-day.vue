@@ -17,13 +17,10 @@
           <span class="i-col-4">
             {{ticket.elementName}}
           </span>
-        <span class="i-col-8  i-text-al-r">
-            {{ticket.year}}/{{ticket.month}}/{{ticket.day}}
-          </span>
-        <span class="i-col-6">
+        <span class="i-col-4">
             {{accountName(ticket)}}
           </span>
-        <span class="i-col-6 i-text-al-r">
+        <span class="i-col-4 i-text-al-r">
             {{showMoney(ticket)}}
           </span>
       </div>
@@ -83,10 +80,10 @@
       accountName(ticket){
         let name = [];
         if (ticket.innerAccount && ticket.innerAccount.name) {
-          name.push(`i:${ticket.innerAccount.name}`)
+          name.push(`收入:${ticket.innerAccount.name}`)
         }
         if (ticket.outerAccount && ticket.outerAccount.name) {
-          name.push(`o:${ticket.outerAccount.name}`)
+          name.push(`支出:${ticket.outerAccount.name}`)
         }
         if (name.length > 1) {
           return name.join("/")

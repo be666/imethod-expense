@@ -8,60 +8,124 @@
         {{year}}年
         <button v-on:click='next()'>&gt;</button>
         <a v-on:click='stat()'>刷新</a>
+        <button v-on:click='list()' style="float:right">明细</button>
+        <button v-on:click='stat()' style="float:right">总计</button>
       </div>
     </div>
     <div class="i-row">
-      <div
-        class="i-row i-border-b"
-      >
-          <span class="i-col-4">
-            account
-          </span>
-        <span class="i-col-4 i-text-al-r">
-            收入
-          </span>
-        <span class="i-col-4 i-text-al-r">
-            支出
-          </span>
-      </div>
-      <template v-for="account of accountList">
+      <template v-if="showType == 'list'">
         <div
           class="i-row i-border-b"
         >
           <span class="i-col-4">
-            {{account.account.name}}
+            account
           </span>
           <span class="i-col-4 i-text-al-r">
-            {{account.inner}}
+            收入
           </span>
           <span class="i-col-4 i-text-al-r">
-            {{account.outer}}
+            支出
           </span>
         </div>
+        <template v-for="account of accountList">
+          <div
+            class="i-row i-border-b"
+          >
+          <span class="i-col-4">
+            {{account.account.name}}
+          </span>
+            <span class="i-col-4 i-text-al-r">
+            {{account.inner}}
+          </span>
+            <span class="i-col-4 i-text-al-r">
+            {{account.outer}}
+          </span>
+          </div>
+        </template>
+      </template>
+      <template v-if="showType == 'stat'">
+        <div
+          class="i-row i-border-b"
+        >
+          <span class="i-col-4">
+            account
+          </span>
+          <span class="i-col-8 i-text-al-r">
+            总计
+          </span>
+        </div>
+        <template v-for="account of accountList">
+          <div
+            v-if='account.inner - account.outer'
+            class="i-row i-border-b"
+          >
+          <span class="i-col-4">
+            {{account.account.name}}
+          </span>
+            <span class="i-col-8 i-text-al-r">
+            {{showMoney(account)}}
+          </span>
+          </div>
+        </template>
       </template>
     </div>
+  </div>
+  <div class="i-panel-body">
     <div class="i-row">
-      <div
-        class="i-row i-border-b"
-      >
+      <template v-if="showType == 'list'">
+        <div
+          class="i-row i-border-b"
+        >
           <span class="i-col-4">
             element
           </span>
-        <span class="i-col-8 i-text-al-r">
-            总计
+          <span class="i-col-4 i-text-al-r">
+            收入
           </span>
-      </div>
-      <template v-for="element of elementList">
-        <div v-if='element.inner - element.outer'
-             class="i-row i-border-b"
-        >
+          <span class="i-col-4 i-text-al-r">
+            支出
+        </div>
+        <template v-for="element of elementList">
+          <div
+            v-if='element.inner - element.outer'
+            class="i-row i-border-b"
+          >
           <span class="i-col-4">
             {{element.element.name}}
           </span>
+            <span class="i-col-4 i-text-al-r">
+            {{element.inner}}
+          </span>
+            <span class="i-col-4 i-text-al-r">
+            {{element.outer}}
+          </span>
+          </div>
+        </template>
+      </template>
+      <template v-if="showType == 'stat'">
+        <div
+          class="i-row i-border-b"
+        >
+          <span class="i-col-4">
+            element
+          </span>
           <span class="i-col-8 i-text-al-r">
-            {{showMoney(element)}}
+            总计
           </span>
         </div>
+        <template v-for="element of elementList">
+          <div
+            v-if='element.inner - element.outer'
+            class="i-row i-border-b"
+          >
+          <span class="i-col-4">
+            {{element.element.name}}
+          </span>
+            <span class="i-col-8 i-text-al-r">
+          {{showMoney(element)}}
+          </span>
+          </div>
+        </template>
       </template>
     </div>
   </div>
@@ -76,7 +140,8 @@
         userId: this.$tools.getUserInfo().id,
         year: currentDate.getFullYear(),
         elementList: [],
-        accountList: []
+        accountList: [],
+        showType: "list"
       }
     },
     ready(){
@@ -187,6 +252,12 @@
         this.year = this.year + 1;
         this.$dispatch('refreshE');
         this.$dispatch('refreshA');
+      },
+      list(){
+        this.showType = 'list';
+      },
+      stat(){
+        this.showType = 'stat';
       }
     }
   }

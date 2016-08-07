@@ -2,8 +2,24 @@
   min-height: 100%;
 }
 
-
-@media screen  and (max-width: 560px){
+@media screen  and (max-width: 560px) {
 
 }
 
+.i-row {
+  > * {
+    display: inline-flex;
+  }
+}
+
+[class^=i-col-].i-text-al-c {
+  justify-content: center;
+}
+
+[class^=i-col-].i-text-al-r {
+  justify-content: flex-end;
+}
+
+[class^=i-col-].i-text-al-l {
+  justify-content: flex-start;
+}
