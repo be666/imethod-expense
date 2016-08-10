@@ -7,7 +7,7 @@
         <button v-on:click='pre()'>&lt;</button>
         {{year}}年
         <button v-on:click='next()'>&gt;</button>
-        <a v-on:click='stat()'>刷新</a>
+        <button v-on:click='stat()'>刷新</button>
         <button v-on:click='listV()' style="float:right">明细</button>
         <button v-on:click='statV()' style="float:right">总计</button>
       </div>
