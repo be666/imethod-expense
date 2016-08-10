@@ -8,8 +8,8 @@
         {{year}}年
         <button v-on:click='next()'>&gt;</button>
         <a v-on:click='stat()'>刷新</a>
-        <button v-on:click='list()' style="float:right">明细</button>
-        <button v-on:click='stat()' style="float:right">总计</button>
+        <button v-on:click='listV()' style="float:right">明细</button>
+        <button v-on:click='statV()' style="float:right">总计</button>
       </div>
     </div>
     <div class="i-row">
@@ -253,10 +253,10 @@
         this.$dispatch('refreshE');
         this.$dispatch('refreshA');
       },
-      list(){
+      listV(){
         this.showType = 'list';
       },
-      stat(){
+      statV(){
         this.showType = 'stat';
       }
     }
