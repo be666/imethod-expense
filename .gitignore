@@ -2,7 +2,7 @@
 node_modules
 
 # Ignore built files
-dist
+dist/static
 dist-web
 
 npm-debug.log
